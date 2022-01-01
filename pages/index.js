@@ -1,15 +1,14 @@
-import Head from 'next/head'
-import Header from '../components/Header'
-import {Nav} from '../components/Nav'
-import  {Result} from '../components/Result'
-import request from '../utils/request';
- 
+import Head from "next/head";
 
+import Header from "../components/Header";
+import { Nav } from "../components/Nav";
+import Results from "../components/Results";
+import requests from "../utils/requests";
 
-
+import request from "../utils/requests";
 
 export default function Home(props) {
-  console.log(props)
+ 
   return (
     <div>
       <Head>
@@ -18,44 +17,27 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-
-      {/* Header  */}
-
       <Header />
-
-
-      {/* Nav */}
-       
-       <Nav />
-
-
-       
-        
-
-      {/* Result */}
-
-
-   {/* <Result result={Result} /> */}
-  
-
+      <Nav />
+     <Results results={results} />
     </div>
   );
 }
 
 
-// export async function getServersideProps(context){
-//   const genre =context.query.genre;
 
-//   const request=await fetch(`https://api.themoviedb.org/3$
-//   {request[genre]?.url ||request.fetchTrading.url
-//   }`
-//   ).then(res => res.json());
+export async function getServerSideProps(context) {
+  const genre = context.query.genre;
 
-//   return{
-//           props:{
-//             result:request.result,
-//           },
-//   };
+  const request = await fetch(
+    `https://api.themoviedb.org/3${
+      requests[genre]?.url || requests.fetchTrending.url
+    }`
+  ).then((res) => res.json());
 
-
-// }
+ return {
+   props: {
+     results: request.results,
+   },
+ };
+}
